@@ -34,6 +34,17 @@ void TLC5973::setPixelColor(uint16_t n, uint16_t r, uint16_t g, uint16_t b) {
     p[0] = b;
   }
 }
+ 
+// Set pixel color from separate R,G,B components:
+void TLC5973::setWhite(uint16_t n, uint16_t w) {
+  if(n < numLEDs) {
+    uint16_t *p;
+    p = &pixels[n * 3];    // 3 bytes per pixel
+    p[2] = w;          // R,G,B always stored
+    p[1] = w;
+    p[0] = w;
+  }
+}
 
 
 void TLC5973::pulse() 
@@ -46,6 +57,10 @@ void TLC5973::writeZero(){
     pulse();
     NOP;
     NOP;
+    NOP;
+    NOP;
+
+
 }
 
 void TLC5973::writeNone(){
@@ -53,11 +68,13 @@ void TLC5973::writeNone(){
     NOP;
     NOP;
     NOP;
+    
 }
 
 void TLC5973::writeOne(){
     pulse();
     pulse();
+    
 }
 
 void TLC5973::waitGSLAT(uint8_t num){
@@ -85,7 +102,7 @@ void TLC5973::show(){
       writeWord( pixels[i] );
       writeWord( pixels[i+1] );
       writeWord( pixels[i+2] );
-      waitGSLAT(4);
+      waitGSLAT(8);
    }
    waitGSLAT(4);
    interrupts();
