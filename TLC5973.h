@@ -6,6 +6,7 @@ class TLC5973{
     void setPixelColor(uint16_t n, uint16_t r, uint16_t g, uint16_t b);
     void show();
     void begin();
+    void setWhite(uint16_t n, uint16_t w);
     
  private:
     void updateLength();
